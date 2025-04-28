@@ -1,0 +1,86 @@
+<div class="flex flex-col md:flex-row justify-center items-center gap-6 md:gap-2 lg:gap-4">
+  <div class="space-y-4 max-h-[400px] overflow-auto rounded-lg bg-white shadow w-full md:w-2/3">
+    <h3 class="text-lg text-center font-semibold text-primary-800">
+      Liste des Auteurs
+    </h3>
+    @if (authors().length > 0) {
+    <app-table [objects]="authors()" [view]="true" [update]="true" [delete]="true" (viewEvent)="onViewClick($event)"
+      (updateEvent)="onUpdateClick($event)" (deleteEvent)="onDeleteClick($event)" />
+    }
+    @if (toggleAuthorView()) {
+    <app-admin-detail-view (close)="onCancel()">
+      <div
+        class="size-full gap-10 flex flex-col justify-center p-2 items-center border rounded shadow border-primary-200 bg-primary-100 overflow-auto">
+        <h2 class="text-center text-xl md:text-3xl font-medium">Auteur</h2>
+        <div class="text-md md:text-lg lg:text-2xl space-y-2 w-full md:w-1/2">
+          <span class="flex justify-between">
+            <span class="font-medium"> Author_ID :</span>
+            {{ author().id }}
+          </span>
+          <span class="">
+            <span class="font-medium"> Nom : </span>
+            {{ author().nom }}<br />
+          </span>
+          <span class="">
+            <span class="font-medium"> Biographie : <br /></span>
+            {{ author().biographie }}
+          </span>
+          <span class="flex justify-between">
+            <span class="font-medium"> Pays :</span>
+            {{ author().pays }}
+          </span>
+        </div>
+      </div>
+    </app-admin-detail-view>
+    }
+  </div>
+
+  <div class="bg-white p-4 space-y-4 w-full md:w-1/3 rounded-lg shadow">
+    <h3 class="text-lg font-semibold text-primary-800">
+      {{
+      isUpdating()
+      ? "Mettre a jour l'auteur"
+      : "Ajouter un
+      nouvel auteur"
+      }}
+    </h3>
+    <form (ngSubmit)="onSubmitAuthor()" class="space-y-4">
+      <div>
+        <label class="block text-sm font-medium text-primary-700 mb-1">Nom</label>
+        <input type="text" [(ngModel)]="author().nom" name="nom"
+          class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500"
+          placeholder="Entrez le nom complet de l'auteur" />
+      </div>
+
+      <div>
+        <label class="block text-sm font-medium text-primary-700 mb-1">Biographie</label>
+        <textarea [(ngModel)]="author().biographie" name="biographie"
+          class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500 h-24"
+          placeholder="Donnez la biographie de l'auteur"></textarea>
+      </div>
+      <div>
+        <label class="block text-sm font-medium text-primary-700 mb-1">Date de naissance</label>
+        <input type="date" name="date" [(ngModel)]="author().dateNaissance"
+          class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500" />
+      </div>
+
+      <div>
+        <label class="block text-sm font-medium text-primary-700 mb-1">Pays</label>
+        <input [(ngModel)]="author().pays" type="url" name="pays"
+          class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500"
+          placeholder="Donnez le pays de l'auteur" />
+      </div>
+
+      <button type="submit"
+        class="w-full cursor-pointer bg-primary-600 text-white py-2 rounded-md hover:bg-primary-700 transition-colors">
+        {{ isUpdating() ? "Modifier l'auteur" : "Ajouter Auteur" }}
+      </button>
+      @if (isUpdating()) {
+      <button (click)="onCancel()" type="reset"
+        class="w-full cursor-pointer bg-red-600 text-white py-2 rounded-md hover:bg-red-800 transition-colors">
+        Annuler
+      </button>
+      }
+    </form>
+  </div>
+</div>

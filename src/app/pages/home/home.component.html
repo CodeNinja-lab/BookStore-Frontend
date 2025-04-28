@@ -1,0 +1,67 @@
+<app-hero />
+
+<section class="py-10 container mx-auto px-6">
+  <h2 class="text-2xl font-bold text-primary-800 mb-6">Meilleurs Ventes</h2>
+  <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+    @for (book of books(); track book.id) {
+    <app-card [book]="book" />
+    }
+  </div>
+</section>
+<section class="py-6 px-6 bg-primary-50">
+  <div class="container mx-auto">
+    <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-2 md:gap-0">
+      <div>
+        <h2 class="text-2xl font-bold mb-2 text-primary-800">Categories</h2>
+        <p class="text-primary-600">Faite des recherches par categorie</p>
+      </div>
+      <a routerLink="/books" class="text-primary-600 hover:text-primary-800 transition-colors flex items-center">
+        Voir tout
+        <span class="material-symbols-outlined ml-1">arrow_forward</span>
+      </a>
+    </div>
+    <div class="flex flex-wrap w-full justify-center gap-4 mt-6">
+      <a (click)="search('politique')"
+        class="bg-white rounded-lg cursor-pointer p-4 w-[200px] text-center shadow hover:shadow-md transition-all hover:-translate-y-1">
+        <span class="material-symbols-outlined text-3xl text-primary-600">gavel</span>
+        <p class="mt-2 font-medium">Politique</p>
+      </a>
+      <a (click)="search('enfan')"
+        class="bg-white rounded-lg cursor-pointer p-4 w-[200px] text-center shadow hover:shadow-md transition-all hover:-translate-y-1">
+        <span class="material-symbols-outlined text-3xl text-primary-600">child_care</span>
+        <p class="mt-2 font-medium">Enfant</p>
+      </a>
+      <a (click)="search('education')"
+        class="bg-white rounded-lg p-4 text-center w-[200px] shadow hover:shadow-md transition-all hover:-translate-y-1">
+        <span class="material-symbols-outlined text-3xl text-primary-600">school</span>
+        <p class="mt-2 font-medium">Education</p>
+      </a>
+      <a (click)="search('science')"
+        class="bg-white rounded-lg p-4 text-center w-[200px] shadow hover:shadow-md transition-all hover:-translate-y-1">
+        <span class="material-symbols-outlined text-3xl text-primary-600">rocket_launch</span>
+        <p class="mt-2 font-medium">Science</p>
+      </a>
+    </div>
+  </div>
+</section>
+<section class="py-8 px-4 md:px-6">
+  <div class="container mx-auto bg-primary-700 rounded-xl p-8 text-white flex justify-evenly items-center">
+    <div class="text-center md:text-left">
+      <h2 class="text-2xl lg:text-3xl font-bold mb-2">
+        Inscrivez-vous dés maintenant
+      </h2>
+      <p class="mb-4 lg:text-lg">
+        Commencez à profiter de nos offres et beneficiez de réductions
+        éxclusives
+      </p>
+      <button routerLink="/register"
+        class="cursor-pointer bg-white text-primary-700 px-6 py-2 rounded-lg font-medium hover:bg-primary-100 transition-colors">
+        S'Inscrire
+      </button>
+    </div>
+    <div class="hidden sm:block">
+      <img src="assets/home_page_section.jpg" alt="Rewards program"
+        class="rounded-lg w-full h-[300px] shadow-lg transform rotate-3 hover:rotate-0 transition-transform" />
+    </div>
+  </div>
+</section>

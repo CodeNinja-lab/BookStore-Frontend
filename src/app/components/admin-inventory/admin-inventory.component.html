@@ -1,0 +1,129 @@
+<div class="flex flex-col md:flex-row justify-center items-center gap-6">
+  <div class="w-full md:w-1/2 lg:w-full p-2">
+    <div class="space-y-4 max-h-[400px] overflow-auto px-2 py-4 rounded-lg bg-white shadow">
+      <h3 class="text-lg text-center font-semibold text-primary-800">
+        Liste des Stocks
+      </h3>
+
+      @if (displayInventory().length > 0) {
+      <app-table [objects]="displayInventory()" [view]="true" [update]="true" [delete]="true"
+        (viewEvent)="onViewClick($event)" (updateEvent)="onUpdateClick($event)" (deleteEvent)="onDeleteClick($event)" />
+      } @else {
+      <h1>Aucun résultat</h1>
+      }
+    </div>
+    @if (displayFaibleStock().length > 0) {
+    <div class="space-y-4 max-h-[400px] overflow-auto px-2 py-4 rounded-lg bg-white shadow">
+      <h3 class="text-lg text-center font-semibold text-primary-800">
+        Stocks inférieurs à {{ seuil() }}
+      </h3>
+      <app-table [objects]="displayFaibleStock()" [view]="true" [update]="true" [delete]="true"
+        (viewEvent)="onViewClick($event)" (updateEvent)="onUpdateClick($event)" (deleteEvent)="onDeleteClick($event)" />
+    </div>
+    }
+    @if (toggleInventoryView()) {
+    <app-admin-detail-view (close)="onCancel()">
+      <div
+        class="size-11/12 gap-10 flex flex-col justify-center p-2 items-center border rounded shadow border-primary-200 bg-primary-100 overflow-auto">
+        <h2 class="text-center text-2xl md:text-3xl font-medium">
+          Inventaire
+        </h2>
+        <div class="text-lg md:text-2xl lg:w-1/3">
+          <span class="flex justify-between">
+            <span class="font-medium"> Details_ID :</span>
+            {{ inventory().detailLivre.id }}
+          </span>
+          <span class="flex justify-between">
+            <span class="font-medium"> ID :</span>
+            {{ inventory().detailLivre.idLivre }}
+          </span>
+          <span class="flex justify-between">
+            <span class="font-medium"> Format :</span>
+            {{ inventory().detailLivre.format }}
+          </span>
+          <span class="flex justify-between">
+            <span class="font-medium"> Price :</span>
+            {{ inventory().detailLivre.prixUnitaire }}
+          </span>
+          <span class="flex justify-between">
+            <span class="font-medium"> Language :</span>
+            {{ inventory().detailLivre.langue }}
+          </span>
+          <span class="flex justify-between">
+            <span class="font-medium"> Quantity :</span>
+            {{ inventory().quantite }}
+          </span>
+        </div>
+      </div>
+    </app-admin-detail-view>
+    }
+  </div>
+
+  <div class="bg-white space-y-12 p-4 w-full md:w-1/2 rounded-lg shadow">
+    <div>
+      <h3 class="text-lg font-semibold text-primary-800">
+        {{
+        toggleUpdate() && inventory().detailLivre.id > 0
+        ? "Modifier le stock"
+        : "Creer stock pour un livre"
+        }}
+      </h3>
+      <form (ngSubmit)="onSubmitInventory()" class="space-y-4">
+        @if (toggleUpdate() && inventory().detailLivre.id > 0) {
+        <div>
+          <label class="block text-sm font-medium text-primary-700 mb-1">Book_Details_ID</label>
+          <input name="book_details_id" disabled
+            class="w-full px-3 py-2 border bg-gray-100 border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500"
+            [value]="inventory().detailLivre.id" />
+        </div>
+        } @else {
+        <div>
+          <label class="block text-sm font-medium text-primary-700 mb-1">Book_Details_ID</label>
+          <select name="book_details_id" [(ngModel)]="selectedDetailId"
+            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500">
+            <option disabled selected>Selectionnez le Detail_Livre_ID</option>
+            @for (detail of bookDetails(); track detail.id) {
+            <option [value]="detail.id">
+              {{ detail.id }}
+            </option>
+            }
+          </select>
+        </div>
+        }
+        <div>
+          <label class="block text-sm font-medium text-primary-700 mb-1">Quantite</label>
+          <input type="number" min="0" name="quantity" [(ngModel)]="inventory().quantite"
+            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500"
+            placeholder="Ajouter une quantité" />
+        </div>
+        <button type="submit"
+          class="w-full cursor-pointer bg-primary-600 text-white py-2 rounded-md hover:bg-primary-700 transition-colors">
+          {{ toggleUpdate() ? "Modifier" : "Ajouter" }}
+        </button>
+        @if (toggleUpdate()) {
+        <button (click)="onCancel()" type="reset"
+          class="w-full cursor-pointer bg-red-700 text-white py-2 rounded-md hover:bg-primary-700 transition-colors">
+          Annuler
+        </button>
+        }
+      </form>
+    </div>
+
+    <div>
+      <h3 class="text-lg font-semibold text-primary-800">
+        Afficher les stocks inferieurs au seuil
+      </h3>
+      <form (ngSubmit)="onShowFaibleStock()" class="space-y-4">
+        <div>
+          <label class="block text-sm font-medium text-primary-700 mb-1">Seuil</label>
+          <input type="number" min="0" name="quantity" [(ngModel)]="seuil"
+            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500" />
+        </div>
+        <button type="submit"
+          class="w-full cursor-pointer bg-primary-600 text-white py-2 rounded-md hover:bg-primary-700 transition-colors">
+          Afficher
+        </button>
+      </form>
+    </div>
+  </div>
+</div>

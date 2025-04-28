@@ -1,0 +1,8 @@
+@if (render()) {
+<div class="text-center p-3 rounded-b-xl text-white text-lg" [ngClass]="{
+      'bg-green-500': message().type === 0,
+      'bg-red-500': message().type === 1,
+    }">
+  {{ message().text }}
+</div>
+}

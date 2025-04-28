@@ -1,0 +1,231 @@
+<section class="py-8 px-4 md:px-6 container mx-auto bg-white">
+  <h2 class="text-2xl font-bold text-center md:text-start text-primary-800 mb-6">
+    Mon Profile
+  </h2>
+  <div class="flex flex-col md:flex-row items-center gap-6">
+    <div class="max-w-md w-full flex flex-col justify-center items-center gap-10">
+      <div class="bg-white shadow-md w-full rounded-lg p-6">
+        @if (currentUser().id > 0) {
+        <div class="flex flex-col items-center mb-6">
+          <div
+            class="h-24 w-24 rounded-full bg-primary-600 flex items-center justify-center text-white text-3xl font-bold mb-3">
+            {{
+            this.currentUser().nomUtilisateur.substring(0, 2).toUpperCase()
+            }}
+          </div>
+          <h3 class="text-xl font-semibold text-primary-800">
+            {{ currentUser().nomUtilisateur }}
+          </h3>
+          <p class="text-gray-600">
+            Membre depuis
+            {{ currentUser().creeLe!.toString().substring(0, 10) }}
+          </p>
+        </div>
+        <div class="space-y-4">
+          <div class="flex items-center">
+            <span class="material-symbols-outlined text-primary-600 mr-3">email</span>
+            <div>
+              <p class="text-sm text-gray-500">Email</p>
+              <p class="text-primary-800">{{ currentUser().email }}</p>
+            </div>
+          </div>
+          <div class="flex items-center">
+            <span class="material-symbols-outlined text-primary-600 mr-3">recent_actors</span>
+            <div>
+              <p class="text-sm text-gray-500">Role</p>
+              <p class="text-primary-800">{{ currentUser().role }}</p>
+            </div>
+          </div>
+        </div>
+        }
+      </div>
+
+      <button type="button" (click)="disconnect()"
+        class="bg-red-600 cursor-pointer w-1/2 text-white px-4 py-3 rounded rounded-t-0 hover:bg-red-800 transition-colors">
+        Deconnexion
+      </button>
+    </div>
+
+    <div class="bg-white w-full p-6 rounded-lg shadow-md">
+      <div class="flex flex-wrap gap-4 mb-4">
+        <button (click)="onFavorisClick()" [ngClass]="{
+            'bg-primary-600': toggleFavoris(),
+            'hover:bg-primary-700': toggleFavoris(),
+            'text-white': toggleFavoris(),
+            'border-primary-600': !toggleFavoris(),
+            'hover:bg-primary-50': !toggleFavoris(),
+            'text-primary-600': !toggleFavoris(),
+          }" class="cursor-pointer px-4 py-2 border rounded transition-colors">
+          Favoris
+        </button>
+        <button (click)="onCommandesClick()" [ngClass]="{
+            'bg-primary-600': toggleCommandes(),
+            'hover:bg-primary-700': toggleCommandes(),
+            'text-white': toggleCommandes(),
+            'border-primary-600': !toggleCommandes(),
+            'hover:bg-primary-50': !toggleCommandes(),
+            'text-primary-600': !toggleCommandes(),
+          }" class="cursor-pointer px-4 py-2 border rounded transition-colors">
+          Commandes
+        </button>
+        <button (click)="onChangeInfoClick()" [ngClass]="{
+            'bg-primary-600': toggleChangeInfo(),
+            'hover:bg-primary-700': toggleChangeInfo(),
+            'text-white': toggleChangeInfo(),
+            'border-primary-600': !toggleChangeInfo(),
+            'hover:bg-primary-50': !toggleChangeInfo(),
+            'text-primary-600': !toggleChangeInfo(),
+          }" class="cursor-pointer px-4 py-2 border rounded transition-colors">
+          Modifier
+        </button>
+      </div>
+
+      @if (toggleChangeInfo()) {
+      <div>
+        <h3 class="text-xl font-semibold text-primary-800 mb-4">
+          Modifier mot de passe
+        </h3>
+
+        <form class="space-y-4" (ngSubmit)="submitChange()">
+          <div class="pt-4 border-t">
+            <div>
+              <label class="block text-sm font-medium text-primary-700 mb-1">Mot de passe</label>
+              <input [(ngModel)]="password" type="{{ isPasswordRevealed() ? 'text' : 'password' }}" name="password"
+                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500"
+                placeholder="Nouveau mot de passe" required />
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-primary-700 mb-1">Confirmer Mot de passe</label>
+              <input [(ngModel)]="confirmPassword" type="{{ isPasswordRevealed() ? 'text' : 'password' }}"
+                name="password"
+                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500"
+                placeholder="Confirmer mot de passe" required />
+            </div>
+
+            <div class="flex mt-2 gap-2 items-start">
+              <input type="checkbox" id="terms" (click)="revealPassword()"
+                class="h-4 w-4 mt-1 text-primary-600 border-primary-300 rounded focus:ring-primary-500" />
+              <label for="terms" class="block text-md text-primary-700">
+                Afficher mot de passe
+              </label>
+            </div>
+          </div>
+
+          <div class="flex justify-end pt-4">
+            <button type="reset" (click)="annulerChange()"
+              class="bg-gray-300 cursor-pointer text-gray-700 px-4 py-2 rounded hover:bg-gray-400 transition-colors mr-3">
+              Annuler
+            </button>
+            <button type="submit"
+              class="bg-primary-600 cursor-pointer text-white px-4 py-2 rounded hover:bg-primary-700 transition-colors">
+              Sauvegarder
+            </button>
+          </div>
+        </form>
+      </div>
+      } @else if (toggleCommandes()) {
+      <div>
+        <h3 class="text-xl font-semibold text-primary-800 mb-4">
+          Mes Commandes
+        </h3>
+        <div class="pt-4 border-t overflow-auto max-h-[200px]">
+          @if (displayCommandes().length > 0) {
+          <app-table [objects]="displayCommandes()" [view]="true" [update]="false" [delete]="false"
+            (viewEvent)="onViewClick($event)" />
+          }
+          @if (toggleDetailView()) {
+          <app-admin-detail-view (close)="onCancel()">
+            <div class="w-full flex justify-evenly p-2 items-center md:flex-row gap-2 flex-col h-full">
+              <div
+                class="border flex flex-col rounded shadow w-full lg:max-w-1/3 p-4 border-primary-200 bg-primary-100 max-h-1/2 overflow-auto h-full">
+                <h2 class="text-center text-xl font-medium mb-4">
+                  Commande
+                </h2>
+                <span class="flex justify-between">
+                  <span class="font-medium"> Order_ID :</span>
+                  {{ commande().id }}
+                </span>
+                <span class="flex justify-between">
+                  <span class="font-medium"> Date :</span>
+                  {{ commande().dateCommande.toString().substring(0, 10) }}
+                </span>
+                <span class="flex justify-between">
+                  <span class="font-medium"> Prix Total :</span>
+                  $ {{ commande().prixTotal }}
+                </span>
+                <span class="flex justify-between">
+                  <span class="font-medium"> Status :</span>
+                  {{ commande().status }}
+                </span>
+              </div>
+              <div
+                class="border flex flex-col rounded shadow w-full lg:max-w-1/3 p-4 border-primary-200 bg-primary-100 max-h-1/2 overflow-auto h-full">
+                <h2 class="text-center text-xl font-medium mb-4">
+                  Details
+                </h2>
+                @for (detail of detailsCommande(); track detail) {
+                <span class="flex justify-between">
+                  <span class="font-medium"> Quantite : </span>
+                  {{ detailsCommande()[0].quantite }}
+                </span>
+                <span class="flex justify-between">
+                  <span class="font-medium"> Detail_Commande_ID : </span>
+                  {{ detail.detailsLivre.id }}</span>
+                <span class="flex justify-between">
+                  <span class="font-medium"> Livre_ID : </span>
+                  {{ detail.detailsLivre.idLivre }}</span>
+                <span class="flex justify-between">
+                  <span class="font-medium"> Format : </span>
+                  {{ detail.detailsLivre.format }}</span>
+                <span class="flex justify-between">
+                  <span class="font-medium"> Prix Unitaire : </span>
+                  {{ detail.detailsLivre.prixUnitaire }}</span>
+                <span class="flex justify-between">
+                  <span class="font-medium"> Langue : </span>
+                  {{ detail.detailsLivre.langue }}</span>
+                }
+              </div>
+            </div>
+          </app-admin-detail-view>
+          }
+        </div>
+      </div>
+      } @else if (toggleFavoris()) {
+      <div>
+        <h3 class="text-xl font-semibold text-primary-800 mb-4">
+          Mes Favoris
+        </h3>
+        <div
+          class="p-4 border-t overflow-auto max-h-[400px] hover:none grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          @if (livres().length > 0) {
+          @for (livre of livres(); track livre.id) {
+          <div class="bg-white rounded-lg shadow-md max-h-[300px] overflow-hidden">
+            <div class="relative h-1/2">
+              <img src="{{ livre.image }}" alt="Book cover" class="w-full h-full object-contain" />
+              <span class="absolute top-2 left-2 bg-black opacity-75 text-white text-xs px-2 py-1 rounded">{{
+                livre.genre.split("/")[1] }}</span>
+            </div>
+            <div class="px-4 py-2 flex flex-col gap-2 h-1/2">
+              <h3 class="font-semibold line-clamp-2 text-primary-800">
+                {{ livre.titre }}
+              </h3>
+              <div class="flex w-full items-center justify-evenly">
+                <button (click)="onBookDetailsClick(livre)"
+                  class="cursor-pointer justify-end bg-primary-600 text-white px-4 py-1.5 rounded-sm text-sm hover:bg-primary-700 transition-colors">
+                  Details
+                </button>
+                <button (click)="onRemoveFromFavorites(livre)"
+                  class="cursor-pointer justify-end bg-red-600 text-white px-4 py-1.5 rounded-sm text-sm hover:bg-red-800 transition-colors">
+                  Enlever
+                </button>
+              </div>
+            </div>
+          </div>
+          }
+          }
+        </div>
+      </div>
+      }
+    </div>
+  </div>
+</section>

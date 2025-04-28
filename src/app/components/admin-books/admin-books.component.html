@@ -1,0 +1,268 @@
+<div class="py-8 px-4 md:px-6 bg-white">
+  <div class="container mx-auto flex flex-col gap-2">
+    <div class="space-y-4 max-h-[400px] overflow-auto h-full px-2 py-4 rounded-lg bg-white w-full shadow">
+      <h3 class="text-lg text-center font-semibold text-primary-800">
+        Liste des Livres
+      </h3>
+      @if (displayBooks().length > 0) {
+      <app-table [objects]="displayBooks()" [view]="true" [update]="true" [delete]="true"
+        (viewEvent)="onViewClick($event)" (updateEvent)="onUpdateClick($event)" (deleteEvent)="onDeleteClick($event)" />
+      } @else {
+      <h1>Aucun résultat</h1>
+      }
+
+      @if (toggleBookView()) {
+      <app-admin-detail-view (close)="onCancel()">
+        <div
+          class="size-full text-md md:text-lg gap-5 flex flex-col p-2 border rounded shadow border-primary-200 bg-primary-100 overflow-auto">
+          <h2 class="text-center text-xl md:text-2xl font-semibold text-primary-600">
+            Utilisateur
+          </h2>
+          <div class="space-y-2">
+            <div>
+              <span class="font-medium"> Book_ID :</span>
+              {{ book().id }}
+            </div>
+            <div>
+              <span class="font-medium"> Titre :</span>
+              {{ book().titre }}
+            </div>
+            <div>
+              <span class="font-medium"> ISBN :</span>
+              {{ book().isbn }}
+            </div>
+            <div>
+              <span class="font-medium"> Description :</span>
+              {{ book().description }}
+            </div>
+            <div>
+              <span class="font-medium"> editeur :</span>
+              {{ book().editeur }}
+            </div>
+            <div>
+              <span class="font-medium"> Date :</span>
+              {{ book().datePublication }}
+            </div>
+            <div>
+              <span class="font-medium"> Nombre de pages :</span>
+              {{ book().nombrePages }}
+            </div>
+            <div>
+              <span class="font-medium"> Genre :</span>
+              {{ book().genre }}
+            </div>
+            <div>
+              <span class="font-medium"> Image :</span>
+              {{ book().image }}
+            </div>
+          </div>
+
+          <h2 class="text-center text-xl md:text-2xl font-semibold text-primary-600">
+            Details
+          </h2>
+          <div class="flex flex-wrap gap-2">
+            @for (detail of book().details; track detail.id) {
+            <div>
+              <div>
+                <span class="font-medium">Detail_ID :</span>
+                {{ detail.id }}
+              </div>
+              <div>
+                <span class="font-medium">Format :</span>
+                {{ detail.format }}
+              </div>
+              <div>
+                <span class="font-medium">Prix_Unitaire :</span> $
+                {{ detail.prixUnitaire }}
+              </div>
+              <div>
+                <span class="font-medium">Langue :</span>
+                {{ detail.langue }}
+              </div>
+            </div>
+            }
+          </div>
+
+          <h2 class="text-center text-xl md:text-2xl font-semibold text-primary-600">
+            Auteurs
+          </h2>
+          <div class="flex flex flex-wrap gap-4">
+            @for (auteur of book().auteurs; track auteur.id) {
+            <div>
+              <div>
+                <span class="font-medium"> Auteur_ID :</span>
+                {{ auteur.id }}
+              </div>
+              <div>
+                <span class="font-medium"> Nom :</span>
+                {{ auteur.nom }}
+              </div>
+              <div>
+                <span class="font-medium"> Date_De_Naissance :</span>
+                {{ auteur.dateNaissance }}
+              </div>
+              <div>
+                <span class="font-medium"> Pays :</span>
+                {{ auteur.pays }}
+              </div>
+            </div>
+            }
+          </div>
+        </div>
+      </app-admin-detail-view>
+      }
+    </div>
+    @if (toggleUpdateBook()) {
+    <div class="space-y-4 max-h-[400px] overflow-auto h-full px-2 py-4 rounded-lg bg-white w-full shadow">
+      <h3 class="text-lg text-center font-semibold text-primary-800">
+        Liste des Details du livre
+      </h3>
+
+      <app-table [objects]="bookDetails()" [view]="false" [update]="true" [delete]="true"
+        (updateEvent)="onUpdateDetailsClick($event)" (deleteEvent)="onDeleteDetailsClick($event)" />
+    </div>
+    }
+    <div class="flex flex-col md:flex-row items-center">
+      <div class="bg-white w-full space-y-4 p-4 rounded-lg shadow">
+        <h3 class="text-lg text-center font-semibold text-primary-800">
+          {{
+          toggleUpdateBook()
+          ? "Modifier le livre"
+          : "Ajouter un nouveau livre"
+          }}
+        </h3>
+        <form class="space-y-4" (ngSubmit)="submitBook()">
+          <div>
+            <label class="block text-sm font-medium text-primary-700 mb-1">Titre</label>
+            <input type="text" required [(ngModel)]="book().titre" name="titre"
+              class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500"
+              placeholder="Donnez le titre" />
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-primary-700 mb-1">ISBN</label>
+            <input type="text" required [(ngModel)]="book().isbn" name="isbn"
+              class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500"
+              placeholder="Donnez l'ISBN" />
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-primary-700 mb-1">Description</label>
+            <textarea [(ngModel)]="book().description" name="description"
+              class="w-full px-3 py-2 border border-gray-300 rounded-md resize-none focus:outline-none focus:ring-2 focus:ring-primary-500"
+              placeholder="Donnez une description"></textarea>
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-primary-700 mb-1">Editeur</label>
+            <input type="text" required [(ngModel)]="book().editeur" name="editeur"
+              class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500"
+              placeholder="Donnez l'editeur" />
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-primary-700 mb-1">Genre</label>
+            <input type="text" [(ngModel)]="book().genre" name="genre"
+              class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500"
+              placeholder="Donnez le genre" />
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-primary-700 mb-1">Date de publication</label>
+            <input type="date" required [(ngModel)]="book().datePublication" name="date"
+              class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500" />
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-primary-700 mb-1">Nombre de pages</label>
+            <input type="number" min="0" required [(ngModel)]="book().nombrePages" name="nombrePages"
+              class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500"
+              placeholder="Donnez le nombre de pages" />
+          </div>
+          <div class="flex flex-col gap-1">
+            <label class="block text-sm font-medium text-primary-700 mb-1">Auteurs</label>
+            <p (click)="chooseAuthor()"
+              class="w-full cursor-pointer px-3 text-md py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500">
+              @if (selectedAuthors().length > 0) {
+              @for (author of selectedAuthors(); track author.id) {
+              {{ author.nom }},
+              }
+              } @else {
+              Sélectionner auteur(s)
+              }
+            </p>
+            @if (toggleAuthors()) {
+            <div class="self-center overflow-auto rounded shadow p-4 w-full flex flex-col max-h-[100px] h-full">
+              @for (author of allAuthors(); track author.id) {
+              <span>
+                <input type="checkbox" class="cursor-pointer" [checked]="selectedAuthors().includes(author)"
+                  [value]="author" (change)="toggleSelection(author, $event)" />
+                {{ author.nom }}
+              </span>
+              }
+            </div>
+            }
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-primary-700 mb-1">Image de couverture</label>
+            <input type="text" required [(ngModel)]="book().image" name="image"
+              class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500"
+              placeholder="Donnez l'url de l'image" />
+          </div>
+          <button type="submit"
+            class="w-full bg-primary-600 text-white py-2 rounded-md hover:bg-primary-700 transition-colors">
+            {{ toggleUpdateBook() ? "Modifier Livre" : "Ajouter Livre" }}
+          </button>
+          @if (toggleUpdateBook()) {
+          <button (click)="onCancel()" type="reset"
+            class="w-full cursor-pointer bg-red-700 text-white py-2 rounded-md hover:bg-primary-700 transition-colors">
+            Annuler
+          </button>
+          }
+        </form>
+      </div>
+      <div class="bg-white mt-5 md:mt-0 w-full md:w-1/2 space-y-4 p-4 rounded-lg shadow">
+        <h3 class="text-lg text-center font-semibold text-primary-800">
+          Details supplémentaires
+        </h3>
+        <form class="space-y-4" (ngSubmit)="onSubmitDetails()">
+          <div>
+            <label class="block text-sm font-medium text-primary-700 mb-1">Livre_ID</label>
+            <input type="number" min="0" required [(ngModel)]="bookDetail().idLivre" name="livreId"
+              class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500"
+              placeholder="Donnez l'id du Livre" />
+          </div>
+
+          <div>
+            <label class="block text-sm font-medium text-primary-700 mb-1">Langue</label>
+            <input type="text" required [(ngModel)]="bookDetail().langue" name="langue"
+              class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500"
+              placeholder="Donnez la langue" />
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-primary-700 mb-1">Format</label>
+            <select name="format" [(ngModel)]="bookDetail().format" name="format"
+              class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500">
+              <option>PHYSICAL</option>
+              <option>PDF</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-primary-700 mb-1">Prix Unitaire</label>
+            <input type="number" min="0" required [(ngModel)]="bookDetail().prixUnitaire" name="prixUnitaire"
+              class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500"
+              placeholder="Donnez le Prix Unitaire" />
+          </div>
+          <button type="submit"
+            class="w-full bg-primary-600 text-white py-2 rounded-md hover:bg-primary-700 transition-colors">
+            {{
+            toggleUpdateBook() && bookDetail().id > 0
+            ? "Modifier Details"
+            : "Ajouter Details"
+            }}
+          </button>
+          @if (bookDetail().id > 0 && toggleUpdateBook()) {
+          <button (click)="onCancelDetails()" type="reset"
+            class="w-full cursor-pointer bg-red-700 text-white py-2 rounded-md hover:bg-primary-700 transition-colors">
+            Annuler
+          </button>
+          }
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

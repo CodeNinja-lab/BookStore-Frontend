@@ -1,0 +1,142 @@
+@if (book().id > 0) {
+<div class="flex flex-col">
+  <div class="py-5 px-4 md:px-6 bg-primary-50 border-b border-primary-100">
+    <div class="container mx-auto flex flex-wrap items-center text-sm text-primary-600">
+      @for (
+      categorie of book().genre.split("/").slice(1);
+      track categorie;
+      let idx = $index
+      ) {
+      <span class="mx-2">/</span>
+      @if (idx !== book().genre.split("/").slice(1).length - 1) {
+      <span class="hover:text-primary-800 transition-colors">{{
+        categorie
+        }}</span>
+      } @else {
+      <span class="text-primary-800 font-medium">{{ categorie }}</span>
+      }
+      }
+    </div>
+  </div>
+
+  <div class="w-full container bg-white font-sans mx-auto">
+    <div class="container mx-auto py-8 px-4 md:px-6">
+      <div class="flex flex-col md:flex-row gap-8">
+        <div class="md:w-1/3 flex flex-col items-center">
+          <div class="relative group">
+            <img src="{{ book().image }}" alt="Image de Couverture"
+              class="rounded-lg shadow-lg w-full hover:scale-105 max-w-sm hover:shadow-xl transition-all duration-300" />
+          </div>
+          <div class="mt-6 flex justify-center gap-3 w-full max-w-sm">
+            <button
+              class="bg-primary-600 text-white py-3 px-6 rounded-lg cursor-pointer font-medium hover:bg-primary-700 transition-colors flex-grow flex items-center justify-center">
+              <span class="material-symbols-outlined mr-2">shopping_cart</span>
+              Ajouter au Panier
+            </button>
+            <button (click)="onFavorisClick()"
+              class="bg-white border border-primary-600 cursor-pointer text-primary-600 py-3 px-4 rounded-lg font-medium hover:bg-primary-50 transition-colors">
+              <span class="material-symbols-outlined">favorite</span>
+            </button>
+          </div>
+          <div class="mt-6 flex flex-col gap-4 w-full max-w-sm">
+            <div class="bg-primary-50 p-4 rounded-lg">
+              <h3 class="font-semibold text-primary-800 mb-2">
+                Détails du Livre
+              </h3>
+              <ul class="space-y-2 text-sm">
+                <li class="flex justify-between">
+                  <span class="text-primary-600">Editeur:</span>
+                  <span class="font-medium">{{ book().editeur }}</span>
+                </li>
+                <li class="flex justify-between">
+                  <span class="text-primary-600">Date de publication:</span>
+                  <span class="font-medium">{{
+                    book().datePublication
+                    }}</span>
+                </li>
+                <li class="flex justify-between">
+                  <span class="text-primary-600">Pages:</span>
+                  <span class="font-medium">{{ book().nombrePages }}</span>
+                </li>
+                <li class="flex justify-between">
+                  <span class="text-primary-600">Language:</span>
+                  <span class="font-medium">{{
+                    book().details[0].langue
+                    }}</span>
+                </li>
+                <li class="flex justify-between">
+                  <span class="text-primary-600">ISBN:</span>
+                  <span class="font-medium">{{ book().isbn }}</span>
+                </li>
+              </ul>
+            </div>
+            <div class="bg-primary-50 p-4 rounded-lg">
+              <h3 class="font-semibold text-primary-800 mb-2">
+                Formats Disponibles
+              </h3>
+              <div class="flex flex-wrap gap-2">
+                @for (detail of book().details; track detail.id) {
+                <button
+                  class="bg-white border border-primary-600 text-primary-600 px-3 py-1 rounded text-sm hover:bg-primary-50 transition-colors">
+                  {{ detail.format }}
+                </button>
+                }
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="md:w-2/3 flex flex-col gap-2">
+          <h1 class="text-3xl md:text-4xl font-bold text-primary-800">
+            {{ book().titre }}
+          </h1>
+          <div class="flex items-center">
+            <p class="text-lg text-primary-600">
+              Par
+              @for (auteur of book().auteurs; track auteur) {
+              <a href="https://webcrumbs.cloud/placeholder"
+                class="text-primary-700 hover:text-primary-800 transition-colors">{{ auteur.nom }},
+              </a>
+              }
+            </p>
+          </div>
+          <div class="flex items-center space-x-4">
+            <span class="text-2xl font-bold text-primary-800">${{ book().details[0].prixUnitaire }}</span>
+          </div>
+          <div class="mb-8">
+            <h2 class="text-xl font-semibold text-primary-800 mb-3">
+              Description
+            </h2>
+            <p class="text-primary-700 mb-4">
+              {{
+              book().description !== null
+              ? book().description
+              : "Pas de description pour ce livre"
+              }}
+            </p>
+          </div>
+
+          <div class="space-y-5">
+            <h2 class="text-xl font-semibold text-primary-800">
+              D'autres Suggestions
+            </h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+              @for (livre of similarBooks(); track livre.id) {
+              @if (livre.id !== book().id) {
+              <app-card (click)="onClickSimilar(livre)" [book]="livre" />
+              }
+              }
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div>
+    <div class="my-4 border-t border-primary-100"></div>
+  </div>
+</div>
+} @else {
+<h1 class="text-center text-3xl font-medium text-primary-600">
+  Aucun livre n'a été selectionné
+</h1>
+}

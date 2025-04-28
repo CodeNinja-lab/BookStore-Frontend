@@ -1,0 +1,135 @@
+<header class="bg-primary-600 md:mb-13 text-white">
+  <div
+    class="container gap-4 mx-auto flex justify-between items-center md:grid md:grid-cols-3 bg-primary-600 text-white py-3 px-2">
+    <div (click)="closeEverything()" routerLink="/" class="w-fit flex cursor-pointer items-center gap-2">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" viewBox="0 0 20 20" fill="currentColor">
+        <path fill-rule="evenodd"
+          d="M4 4a2 2 0 012-2h8a2 2 0 012 2v12a2 2 0 01-2 2H6a2 2 0 01-2-2V4zm3 1h6v4H7V5zm8 8v2h1v1H4v-1h1v-2a1 1 0 011-1h8a1 1 0 011 1zM9 7h2v2H9V7z"
+          clip-rule="evenodd"></path>
+      </svg>
+      <h1 class="text-xl md:text-2xl font-bold">SenBook</h1>
+    </div>
+    <div class="hidden md:flex md:items-center relative">
+      <input type="text" [(ngModel)]="search" placeholder="Rechercher des livres..."
+        class="bg-primary-700 text-white placeholder-primary-200 px-4 py-2 rounded-full w-full focus:outline-none focus:ring-2 focus:ring-primary-300 transition-all" />
+      <span (click)="onSearchClick()"
+        class="material-symbols-outlined z-1 absolute flex items-center right-5 cursor-pointer hover:text-primary-200 transition-colors">search</span>
+    </div>
+    <div class="flex gap-4 items-center justify-start md:justify-end">
+      @if (this.isLoggedIn()) {
+      <div class="items-center flex gap-3 justify-end md:justify-end md:w-auto md:gap-4">
+        @if (currentUser().role.toString() === "CLIENT") {
+        <div (click)="closeEverything()" routerLink="/cart" class="relative flex items-center group">
+          <span
+            class="material-symbols-outlined cursor-pointer hover:text-primary-200 transition-colors">shopping_cart</span>
+          @if (false) {
+          <span class="material-symbols-outlined text-2xl cursor-pointer hover:text-primary-200 transition-colors">
+            shopping_cart
+          </span>
+          <span data-id="hGH0"
+            class="absolute -top-2 -right-2 bg-green-500 text-xs rounded-full h-5 w-5 flex items-center justify-center">
+            2
+          </span>
+          <div data-id="XQbL"
+            class="absolute right-0 mt-2 w-80 bg-white shadow-lg rounded-lg p-4 hidden group-hover:block z-10 text-primary-800">
+            <h3 data-id="0x_Z" class="font-semibold mb-2">
+              Your Cart (2 items)
+            </h3>
+            <ul data-id="Xa2B" class="space-y-3">
+              <li data-id="qIhG" class="flex justify-between">
+                <span data-id="P0RS" class="text-sm">
+                  Pride and Prejudice
+                </span>
+                <span data-id="9Sql" class="text-sm font-semibold">
+                  $12.99
+                </span>
+              </li>
+              <li data-id="NPN2" class="flex justify-between">
+                <span data-id="QJyL" class="text-sm"> The Hobbit </span>
+                <span data-id="Bs28" class="text-sm font-semibold">
+                  $15.99
+                </span>
+              </li>
+            </ul>
+            <div data-id="UcWS" class="mt-3 pt-2 border-t flex justify-between">
+              <span data-id="m3T5" class="font-semibold"> Total: </span>
+              <span data-id="B-O0" class="font-semibold"> $28.98 </span>
+            </div>
+            <button data-id="CdTA"
+              class="mt-3 w-full bg-primary-600 py-2 rounded hover:bg-primary-700 transition-colors">
+              Checkout
+            </button>
+          </div>
+          }
+        </div>
+        }
+
+        <div class="relative">
+          <div (click)="onProfileMenuClick()"
+            class="h-10 cursor-pointer w-10 rounded-full bg-primary-400 flex items-center justify-center hover:bg-primary-300 transition-colors">
+            <span class="text-lg font-semibold">{{
+              this.currentUser().nomUtilisateur.substring(0, 2).toUpperCase()
+              }}</span>
+          </div>
+
+          <div (click)="onProfileMenuClick()" [ngClass]="{ hidden: !this.isProfileMenuOpen() }"
+            class="absolute z-1 right-0 mt-2 w-56 bg-white shadow-lg rounded-lg py-2 z-10 text-primary-800">
+            @if (currentUser().role.toString() === "CLIENT") {
+            <a routerLink="/profile" class="block px-4 py-2 hover:bg-primary-100 transition-colors">
+              <span class="material-symbols-outlined align-middle mr-2">person</span>
+              Profile
+            </a>
+            }
+
+            @if (currentUser().role.toString() === "ADMIN") {
+            <a routerLink="/admin" class="block px-4 py-2 hover:bg-primary-100 transition-colors">
+              <span class="material-symbols-outlined align-middle mr-2">admin_panel_settings</span>
+              Admin Center
+            </a>
+            }
+            <div class="border-t my-1"></div>
+            <a (click)="disconnect()"
+              class="cursor-pointer block px-4 py-2 text-red-600 hover:bg-red-50 transition-colors">
+              <span class="material-symbols-outlined align-middle mr-2">logout</span>
+              Deconnexion
+            </a>
+          </div>
+        </div>
+      </div>
+      }
+      <div class="flex md:hidden">
+        <span (click)="onMenuClick()"
+          class="material-symbols-outlined cursor-pointer hover:text-primary-200 transition-colors">
+          {{ this.isMenuOpen() ? "close" : "menu" }}
+        </span>
+      </div>
+    </div>
+
+    <nav
+      class="col-span-3 absolute z-1 top-10 transition-all duration-300 py-4 inset-x-0 bg-primary-600 md:top-12 md:none mt-4"
+      [ngClass]="{ 'top-[-400px]': !this.isMenuOpen() }">
+      <ul (click)="onMenuClick()"
+        class="flex flex-col items-center md:flex-row gap-4 md:gap-6 justify-start md:justify-center min-w-max px-2">
+        <li>
+          <a routerLink="/" class="hover:text-primary-200 transition-colors font-regular">Home</a>
+        </li>
+        <li>
+          <a routerLink="/books" class="hover:text-primary-200 transition-colors font-regular">Catalogue</a>
+        </li>
+        <li>
+          <a routerLink="/about-us" class="hover:text-primary-200 transition-colors font-regular">A propos</a>
+        </li>
+        <li>
+          <a routerLink="/contact" class="hover:text-primary-200 transition-colors font-regular">Contact</a>
+        </li>
+
+        @if (!this.isLoggedIn()) {
+        <div class="flex gap-4">
+          <a class="cursor-pointer" routerLink="/login">Connexion</a>
+          <a class="cursor-pointer" routerLink="/register">Inscription</a>
+        </div>
+        }
+      </ul>
+    </nav>
+  </div>
+</header>

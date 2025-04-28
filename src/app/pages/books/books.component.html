@@ -1,0 +1,43 @@
+<div class="w-full space-y-5 py-8 bg-primary-50">
+  <div class="flex container mx-auto md:hidden text-white relative">
+    <input type="text" [(ngModel)]="search" placeholder="Rechercher des livres..."
+      class="bg-primary-600 text-white placeholder-primary-200 px-4 py-3 rounded-full w-full focus:outline-none focus:ring-2 focus:ring-primary-300 transition-all" />
+    <span (click)="onSearchClick()"
+      class="material-symbols-outlined z-1 absolute top-1/2 right-7 -translate-y-1/2 flex items-center right-5 cursor-pointer hover:text-primary-200 transition-colors">search</span>
+  </div>
+
+  @if (livres().length > 0) {
+  <div class="relative container mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+    @for (livre of livres().slice(0, this.limit()); track livre.id) {
+    <app-card [book]="livre" />
+    }
+    <span (click)="goToTop()"
+      class="fixed cursor-pointer right-10 bottom-10 rounded-full text-white p-4 bg-primary-500 material-symbols-outlined">
+      arrow_upward
+    </span>
+  </div>
+  <div class="w-full flex gap-15 justify-center">
+    <button (click)="showLess()" [ngClass]="{
+          'opacity-25': this.limit() <= 12,
+          'hover:bg-none': this.limit() <= 12,
+          'opacity-100': this.limit() > 12,
+          'hover:bg-primary-700': this.limit() > 12,
+        }" class="cursor-pointer justify-end bg-primary-600 text-white px-3 py-2 rounded text-sm transition-colors">
+      Afficher Moins
+    </button>
+    <button (click)="showMore()" [ngClass]="{
+          'opacity-25': this.limit() >= livres().length,
+          'hover:bg-none': this.limit() >= livres().length,
+          'opacity-100': this.limit() < livres().length,
+          'hover:bg-primary-700': this.limit() < livres().length,
+        }"
+      class="cursor-pointer justify-end bg-primary-600 text-white px-4 py-2 rounded text-md hover:bg-primary-700 transition-colors">
+      Afficher Plus
+    </button>
+  </div>
+  } @else {
+  <h1 class="text-center text-3xl font-medium text-primary-600">
+    Aucun livre n'a été trouvé
+  </h1>
+  }
+</div>

@@ -1,0 +1,15 @@
+<div
+  class="fixed backdrop-blur-sm bg-black/25 flex p-2 items-center justify-center top-1/2 left-1/2 -translate-1/2 w-screen h-screen z-20">
+  <div class="container opacity-100 mx-auto">
+    <div
+      class="flex justify-center items-center opacity-100 relative bg-primary-50 rounded p-4 w-full shadow max-h-[600px] h-full">
+      <button
+        class="cursor-pointer flex absolute top-2 right-2 hover:text-red-900 text-red-600 transition-colors justify-center items-center gap-1">
+        <span (click)="onClose()" class="material-symbols-outlined cursor-pointer">
+          close
+        </span>
+      </button>
+      <ng-content />
+    </div>
+  </div>
+</div>

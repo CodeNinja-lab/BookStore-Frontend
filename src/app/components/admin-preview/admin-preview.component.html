@@ -1,0 +1,52 @@
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+  <div class="bg-white p-4 rounded-lg shadow border border-gray-100 hover:shadow-md transition-all">
+    <div class="flex justify-between items-center">
+      <h3 class="text-lg font-semibold text-primary-800">
+        Nombre d'Utilisateurs
+      </h3>
+      <span class="material-symbols-outlined text-primary-600">person</span>
+    </div>
+    <p class="text-3xl font-bold mt-2 text-primary-700">{{ userCount() }}</p>
+  </div>
+
+  <div class="bg-white p-4 rounded-lg shadow border border-gray-100 hover:shadow-md transition-all">
+    <div class="flex justify-between items-center">
+      <h3 class="text-lg font-semibold text-primary-800">
+        Nombre de Commandes
+      </h3>
+      <span class="material-symbols-outlined text-primary-600">shopping_bag</span>
+    </div>
+    <p class="text-3xl font-bold mt-2 text-primary-700">{{ orderCount() }}</p>
+  </div>
+
+  <div class="bg-white p-4 rounded-lg shadow border border-gray-100 hover:shadow-md transition-all">
+    <div class="flex justify-between items-center">
+      <h3 class="text-lg font-semibold text-primary-800">Inventaire</h3>
+      <span class="material-symbols-outlined text-primary-600">menu_book</span>
+    </div>
+    <p class="text-3xl font-bold mt-2 text-primary-700">{{ stockCount() }}</p>
+    <p class="text-sm text-primary-600 mt-1">Livres en stock</p>
+  </div>
+</div>
+
+<div class="space-y-4">
+  <div class="bg-white max-h-[400px] overflow-auto p-4 rounded-lg shadow">
+    <div class="flex justify-between items-center mb-4">
+      <h3 class="text-lg font-semibold text-primary-800">Commandes Récentes</h3>
+    </div>
+    @if (commandes().length > 0) {
+    <app-table [objects]="commandes()" [view]="false" [update]="false" [delete]="false" />
+    }
+  </div>
+
+  <div class="bg-white max-h-[400px] overflow-auto p-4 rounded-lg shadow">
+    <div class="flex justify-between items-center mb-4">
+      <h3 class="text-lg font-semibold text-primary-800">
+        Utilisateurs Récents
+      </h3>
+    </div>
+    @if (users().length > 0) {
+    <app-table [objects]="users()" [view]="false" [update]="false" [delete]="false" />
+    }
+  </div>
+</div>

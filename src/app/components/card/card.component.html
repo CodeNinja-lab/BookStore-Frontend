@@ -1,0 +1,33 @@
+<div
+  class="bg-white rounded-lg shadow-md h-[350px] overflow-hidden group hover:scale-102 hover:shadow-xl transition-all"
+>
+  <div class="relative h-1/2">
+    <img
+      src="{{ book().image }}"
+      alt="Book cover"
+      class="w-full h-full object-cover"
+    />
+    <span
+      class="absolute top-2 left-2 bg-black opacity-75 text-white text-xs px-2 py-1 rounded"
+      >{{ book().genre.split("/")[1] }}</span
+    >
+  </div>
+  <div class="px-4 py-2 flex flex-col gap-2 h-1/2">
+    <h3 class="font-semibold line-clamp-2 text-primary-800">
+      {{ book().titre }}
+    </h3>
+    <p class="text-sm text-gray-600 line-clamp-1">{{ book().editeur }}</p>
+
+    <div class="flex flex-col gap-2 items-start">
+      <span class="font-bold text-primary-800"
+        >$ {{ book().details[0].prixUnitaire }}</span
+      >
+      <button
+        (click)="onDetailClick()"
+        class="cursor-pointer justify-end bg-primary-600 text-white px-3 py-2 rounded text-sm hover:bg-primary-700 transition-colors"
+      >
+        Plus de details
+      </button>
+    </div>
+  </div>
+</div>

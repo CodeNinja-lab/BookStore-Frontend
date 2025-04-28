@@ -1,0 +1,58 @@
+<div class="overflow-auto">
+  @if (objects().length > 0) {
+  <table class="min-w-full">
+    <thead>
+      <tr class="bg-primary-50">
+        @for (name of head(); track name) {
+        <th class="px-4 py-2 text-left text-sm font-semibold text-primary-800">
+          {{ name }}
+        </th>
+        }
+
+        @if (view() || update() || delete()) {
+        <th class="px-4 py-2 text-left text-sm font-semibold text-primary-800">
+          Actions
+        </th>
+        }
+      </tr>
+    </thead>
+    <tbody>
+      @for (value of values(); track value) {
+      <tr class="border-b hover:bg-primary-50 transition-colors">
+        @for (name of head(); track name; let idx = $index) {
+        <td class="px-4 py-3 text-sm">
+          {{ value[idx].toString().substring(0, 60) }}
+        </td>
+        }
+        @if (view() || update() || delete()) {
+        <td class="px-4 flex justify-center py-3 text-sm">
+          @if (view()) {
+          <button (click)="onViewClick(getObjectFromArrays(head(), value))"
+            class="cursor-pointer text-primary-500 hover:text-black transition-colors mr-2">
+            <span class="material-symbols-outlined text-sm">visibility</span>
+          </button>
+          }
+          @if (update()) {
+          <button (click)="onUpdateClick(getObjectFromArrays(head(), value))"
+            class="cursor-pointer hover:text-primary-600 text-green-700 transition-colors">
+            <span class="material-symbols-outlined text-sm">edit</span>
+          </button>
+          }
+          @if (delete()) {
+          <button (click)="onDeleteClick(getObjectFromArrays(head(), value))"
+            class="cursor-pointer hover:text-primary-600 text-red-700 transition-colors">
+            <span class="material-symbols-outlined text-sm">delete</span>
+          </button>
+          }
+        </td>
+        }
+      </tr>
+      }
+    </tbody>
+  </table>
+  } @else {
+  <h1 class="text-xl text-primary-600 font-medium text-center">
+    Il n'y a aucune donné à afficher
+  </h1>
+  }
+</div>

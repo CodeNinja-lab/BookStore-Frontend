@@ -1,0 +1,120 @@
+@import url(https://fonts.googleapis.com/css2?family=Lato&display=swap);
+@import url(https://fonts.googleapis.com/css2?family=Open+Sans&display=swap);
+@import url(https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200);
+
+@import "tailwindcss";
+
+@utility container {
+  max-width: 1230px;
+  padding: 1rem;
+}
+
+@theme {
+  --font-family-sans:
+    "Open Sans", ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji",
+    "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  --font-family-title:
+    Lato, ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji",
+    "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  --font-family-body:
+    "Open Sans", ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji",
+    "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+
+  --color-neutral-50: #f7f7f7;
+  --color-neutral-100: #eeeeee;
+  --color-neutral-200: #e0e0e0;
+  --color-neutral-300: #cacaca;
+  --color-neutral-400: #b1b1b1;
+  --color-neutral-500: #999999;
+  --color-neutral-600: #7f7f7f;
+  --color-neutral-700: #676767;
+  --color-neutral-800: #545454;
+  --color-neutral-900: #464646;
+  --color-neutral-950: #282828;
+
+  --color-primary-50: #f6f5f0;
+  --color-primary-100: #eae5d7;
+  --color-primary-200: #d6ccb2;
+  --color-primary-300: #bfac85;
+  --color-primary-400: #ac9063;
+  --color-primary-500: #9d7e55;
+  --color-primary-600: #866748;
+  --color-primary-700: #6b4f3b;
+  --color-primary-800: #5c4537;
+  --color-primary-900: #503c33;
+  --color-primary-950: #2d201b;
+  --color-primary: #6b4f3b;
+
+  --font-size-xs: 12px;
+  --line-height-xs: 19.2px;
+  --font-size-sm: 14px;
+  --line-height-sm: 21px;
+  --font-size-base: 16px;
+  --line-height-base: 25.6px;
+  --font-size-lg: 18px;
+  --line-height-lg: 27px;
+  --font-size-xl: 20px;
+  --line-height-xl: 28px;
+  --font-size-2xl: 24px;
+  --line-height-2xl: 31.2px;
+  --font-size-3xl: 30px;
+  --line-height-3xl: 36px;
+  --font-size-4xl: 36px;
+  --line-height-4xl: 41.4px;
+  --font-size-5xl: 48px;
+  --line-height-5xl: 52.8px;
+  --font-size-6xl: 60px;
+  --line-height-6xl: 66px;
+  --font-size-7xl: 72px;
+  --line-height-7xl: 75.6px;
+  --font-size-8xl: 96px;
+  --line-height-8xl: 100.8px;
+  --font-size-9xl: 128px;
+  --line-height-9xl: 134.4px;
+
+  --radius-none: 0px;
+  --radius-sm: 6px;
+  --radius: 12px;
+  --radius-md: 18px;
+  --radius-lg: 24px;
+  --radius-xl: 36px;
+  --radius-2xl: 48px;
+  --radius-3xl: 72px;
+  --radius-full: 9999px;
+
+  --spacing-0: 0px;
+  --spacing-0\.5: 2px;
+  --spacing-1: 4px;
+  --spacing-1\.5: 6px;
+  --spacing-2: 8px;
+  --spacing-2\.5: 10px;
+  --spacing-3: 12px;
+  --spacing-3\.5: 14px;
+  --spacing-4: 16px;
+  --spacing-5: 20px;
+  --spacing-6: 24px;
+  --spacing-7: 28px;
+  --spacing-8: 32px;
+  --spacing-9: 36px;
+  --spacing-10: 40px;
+  --spacing-11: 44px;
+  --spacing-12: 48px;
+  --spacing-14: 56px;
+  --spacing-16: 64px;
+  --spacing-20: 80px;
+  --spacing-24: 96px;
+  --spacing-28: 112px;
+  --spacing-32: 128px;
+  --spacing-36: 144px;
+  --spacing-40: 160px;
+  --spacing-44: 176px;
+  --spacing-48: 192px;
+  --spacing-52: 208px;
+  --spacing-56: 224px;
+  --spacing-60: 240px;
+  --spacing-64: 256px;
+  --spacing-72: 288px;
+  --spacing-80: 320px;
+  --spacing-96: 384px;
+  --spacing-px: 1px;
+}

@@ -1,0 +1,87 @@
+<section class="container mx-auto py-8 px-2 space-y-6 bg-white">
+  <h2 class="text-2xl text-center font-bold text-primary-800">
+    Tableau de bord Administrateur
+  </h2>
+
+  <div class="flex flex-wrap justify-center gap-2">
+    <button (click)="showPreview()" [ngClass]="{
+        'bg-primary-600': previewInterface(),
+        'hover:bg-primary-700': previewInterface(),
+        'text-white': previewInterface(),
+        'border-primary-600': !previewInterface(),
+        'hover:bg-primary-50': !previewInterface(),
+        'text-primary-600': !previewInterface(),
+      }" class="cursor-pointer px-4 py-2 border rounded transition-colors">
+      Aperçu
+    </button>
+    <button (click)="showUsers()" [ngClass]="{
+        'bg-primary-600': usersInterface(),
+        'hover:bg-primary-700': usersInterface(),
+        'text-white': usersInterface(),
+        'border-primary-600': !usersInterface(),
+        'hover:bg-primary-50': !usersInterface(),
+        'text-primary-600': !usersInterface(),
+      }" class="cursor-pointer px-4 py-2 rounded border transition-colors">
+      Utilisateurs
+    </button>
+    <button (click)="showOrders()" [ngClass]="{
+        'bg-primary-600': ordersInterface(),
+        'hover:bg-primary-700': ordersInterface(),
+        'text-white': ordersInterface(),
+        'border-primary-600': !ordersInterface(),
+        'hover:bg-primary-50': !ordersInterface(),
+        'text-primary-600': !ordersInterface(),
+      }" class="cursor-pointer px-4 py-2 border rounded transition-colors">
+      Commandes
+    </button>
+    <button (click)="showBooks()" [ngClass]="{
+        'bg-primary-600': booksInterface(),
+        'hover:bg-primary-700': booksInterface(),
+        'text-white': booksInterface(),
+        'border-primary-600': !booksInterface(),
+        'hover:bg-primary-50': !booksInterface(),
+        'text-primary-600': !booksInterface(),
+      }" class="cursor-pointer px-4 border py-2 rounded transition-colors">
+      Livres
+    </button>
+    <button (click)="showAuthors()" [ngClass]="{
+        'bg-primary-600': authorsInterface(),
+        'hover:bg-primary-700': authorsInterface(),
+        'text-white': authorsInterface(),
+        'border-primary-600': !authorsInterface(),
+        'hover:bg-primary-50': !authorsInterface(),
+        'text-primary-600': !authorsInterface(),
+      }" class="cursor-pointer px-4 border py-2 rounded transition-colors">
+      Auteurs
+    </button>
+    <button (click)="showInventory()" [ngClass]="{
+        'bg-primary-600': inventoryInterface(),
+        'hover:bg-primary-700': inventoryInterface(),
+        'text-white': inventoryInterface(),
+        'border-primary-600': !inventoryInterface(),
+        'hover:bg-primary-50': !inventoryInterface(),
+        'text-primary-600': !inventoryInterface(),
+      }" class="cursor-pointer px-4 border py-2 rounded transition-colors">
+      Inventaire
+    </button>
+  </div>
+
+  @if (previewInterface()) {
+  <app-admin-preview [commandes]="commandes()" [users]="users()" />
+  }
+  @if (booksInterface()) {
+  <app-admin-books />
+  }
+  @if (usersInterface()) {
+  <app-admin-users />
+  }
+  @if (ordersInterface()) {
+  <app-admin-orders />
+  }
+  @if (authorsInterface()) {
+  <app-admin-authors />
+  }
+  @if (inventoryInterface()) {
+  <app-admin-inventory />
+  }
+</section>
